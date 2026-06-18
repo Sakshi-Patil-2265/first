@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #17202a;
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 32%), linear-gradient(135deg, #f6f8fb 0%, #eaf1f8 100%);
+        }
+        
+        .page {
+            width: min(980px, calc(100% - 32px));
+            margin: 40px auto;
+        }
+        
+        .form-card {
+            overflow: hidden;
+            border: 1px solid #d9e2ec;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        }
+        
+        .form-header {
+            padding: 28px 32px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0f766e, #2563eb);
+        }
+        
+        .form-header h2 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+        
+        .form-header p {
+            max-width: 620px;
+            margin: 0;
+            line-height: 1.6;
+            color: #dbeafe;
+        }
+        
+        form {
+            padding: 30px 32px 34px;
+        }
+        
+        .section-title {
+            margin: 0 0 18px;
+            font-size: 18px;
+            color: #0f172a;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+        
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .field.full {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            font-weight: 700;
+            color: #334155;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 15px;
+            color: #17202a;
+            background: #ffffff;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+        }
+        
+        input[readonly] {
+            color: #475569;
+            background: #f1f5f9;
+            cursor: not-allowed;
+        }
+        
+        .address-box {
+            margin-top: 26px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 22px;
+            background: #fbfdff;
+        }
+        
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 24px;
+            border: 1px dashed #94a3b8;
+            border-radius: 8px;
+            padding: 14px 16px;
+            background: #f8fafc;
+        }
+        
+        .checkbox-row input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: #0f766e;
+        }
+        
+        .checkbox-row label {
+            margin: 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 28px;
+        }
+        
+        button {
+            border: 0;
+            border-radius: 8px;
+            padding: 12px 22px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            color: #334155;
+            background: #e2e8f0;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+        
+        .btn-primary {
+            color: #ffffff;
+            background: #0f766e;
+            box-shadow: 0 10px 20px rgba(15, 118, 110, 0.24);
+        }
+        
+        .btn-primary:hover {
+            background: #115e59;
+        }
+        
+        .message {
+            display: none;
+            margin-top: 18px;
+            border-radius: 8px;
+            padding: 13px 15px;
+            font-weight: 700;
+            color: #166534;
+            background: #dcfce7;
+        }
+        
+        .message.show {
+            display: block;
+        }
+        
+        @media (max-width: 720px) {
+            .page {
+                margin: 20px auto;
+            }
+            .form-header,
+            form {
+                padding: 24px 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .actions {
+                flex-direction: column-reverse;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Address Form</h2>
+                <p>Enter your primary and secondary address details. Use the checkbox to copy the primary address automatically.</p>
+            </div>
+
+            <form id="addressForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="formAddress">Form of Address</label>
+                        <select id="formAddress" required>
+                            <option value="">Select</option>
+                            <option>Mr.</option>
+                            <option>Mrs.</option>
+                            <option>Ms.</option>
+                            <option>Dr.</option>
+                        </select>
+                    </div>
+                </div>
+
+                <section class="address-box">
+                    <h3 class="section-title">Primary Address</h3>
+
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="address1">Address Line 1</label>
+                            <input type="text" id="address1" placeholder="House number, street name" required>
+                        </div>
+
+                        <div class="field full">
+                            <label for="address2">Address Line 2</label>
+                            <input type="text" id="address2" placeholder="Apartment, landmark, area">
+                        </div>
+
+                        <div class="field">
+                            <label for="city">City</label>
+                            <input type="text" id="city" placeholder="Enter city" required>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="sameAddress" onchange="copyAddress()">
+                    <label for="sameAddress">Same as primary address</label>
+                </div>
+
+                <section class="address-box">
+                    <h3 class="section-title">Secondary Address</h3>
+
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="address1Copy">Address Line 1</label>
+                            <input type="text" id="address1Copy" placeholder="House number, street name" required>
+                        </div>
+
+                        <div class="field full">
+                            <label for="address2Copy">Address Line 2</label>
+                            <input type="text" id="address2Copy" placeholder="Apartment, landmark, area">
+                        </div>
+
+                        <div class="field">
+                            <label for="cityCopy">City</label>
+                            <input type="text" id="cityCopy" placeholder="Enter city" required>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="actions">
+                    <button type="reset" class="btn-secondary">Reset</button>
+                    <button type="submit" class="btn-primary">Submit Address</button>
+                </div>
+
+                <div class="message" id="successMessage">Address details submitted successfully.</div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const addressForm = document.getElementById("addressForm");
+        const successMessage = document.getElementById("successMessage");
+
+        function copyAddress() {
+            const checked = document.getElementById("sameAddress").checked;
+
+            const sourceFields = [
+                "address1",
+                "address2",
+                "city"
+            ];
+
+            const targetFields = [
+                "address1Copy",
+                "address2Copy",
+                "cityCopy"
+            ];
+
+            for (let i = 0; i < sourceFields.length; i++) {
+                const source = document.getElementById(sourceFields[i]);
+                const target = document.getElementById(targetFields[i]);
+
+                if (checked) {
+                    target.value = source.value;
+                    target.readOnly = true;
+                } else {
+                    target.value = "";
+                    target.readOnly = false;
+                }
+            }
+        }
+
+        addressForm.addEventListener("input", function() {
+            successMessage.classList.remove("show");
+
+            if (document.getElementById("sameAddress").checked) {
+                copyAddress();
+            }
+        });
+
+        addressForm.addEventListener("reset", function() {
+            setTimeout(function() {
+                const targetFields = ["address1Copy", "address2Copy", "cityCopy"];
+
+                for (let i = 0; i < targetFields.length; i++) {
+                    document.getElementById(targetFields[i]).readOnly = false;
+                }
+
+                successMessage.classList.remove("show");
+            }, 0);
+        });
+
+        addressForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            if (addressForm.checkValidity()) {
+                successMessage.classList.add("show");
+            }
+        });
+    </script>
+</body>
+
+</html>
